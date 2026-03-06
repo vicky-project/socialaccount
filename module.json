@@ -1,0 +1,11 @@
+{
+    "name": "SocialAccount",
+    "alias": "socialaccount",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\SocialAccount\\Providers\\SocialAccountServiceProvider"
+    ],
+    "files": []
+}
