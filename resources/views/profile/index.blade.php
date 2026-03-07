@@ -42,7 +42,7 @@
     <div class="d-flex flex-wrap gap-2">
       @php
       // Kumpulkan nama provider yang sudah terhubung
-      $connectedProviderNames = $connectedAccounts->pluck('provider')->toArray();
+      $connectedProviderNames = $connectedAccounts->pluck('provider')->map(fn($provider) =>$provider->value)->toArray();
       // Filter provider yang belum terhubung
       $availableProviders = collect($providers)->filter(function($provider) use ($connectedProviderNames) {
       return !in_array($provider->getName(), $connectedProviderNames);
