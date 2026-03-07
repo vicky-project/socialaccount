@@ -8,7 +8,7 @@ return new class extends Migration {
   public function up() {
     $authLogTable = config('socialaccount.authentication_log_table', config('authentication-log.table_name'));
 
-    Schema::create("social_accounts", function (Blueprint $table) {
+    Schema::create("social_accounts", function (Blueprint $table) use($authLogTable) {
       $table->id();
       $table
       ->foreignId("user_id")
