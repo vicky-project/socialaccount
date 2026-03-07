@@ -86,7 +86,7 @@ class SocialLoginController extends Controller
     // Proses login
     if ($socialAccount) {
       $user = $socialAccount->user;
-      Auth::login($user);
+      Auth::guard('web')->login($user);
       // Update last_used_at
       $socialAccount->update(['last_used_at' => now()]);
       return redirect()->intended('/dashboard');
@@ -114,7 +114,7 @@ class SocialLoginController extends Controller
       'last_used_at' => now(),
     ], $providerData));
 
-    Auth::login($user);
+    Auth::guard('web')->login($user);
     return redirect()->intended('/dashboard');
   }
 
