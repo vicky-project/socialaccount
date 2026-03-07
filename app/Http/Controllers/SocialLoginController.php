@@ -129,10 +129,7 @@ class SocialLoginController extends Controller
 
     // Asumsikan package menyimpan log dengan user_id dan waktu
     // Ambil log terbaru untuk user ini (misalnya login terakhir)
-    $log = \DB::table($authLogTable)
-    ->where('user_id', $user->id)
-    ->orderBy('login_at', 'desc')
-    ->first();
+    $log = $user->authentications()->first();
 
     return $log ? $log->id : null;
   }
