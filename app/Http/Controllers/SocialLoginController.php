@@ -64,7 +64,7 @@ class SocialLoginController extends Controller
     if (Auth::check()) {
       $user = Auth::user();
       if ($socialAccount && $socialAccount->user_id != $user->id) {
-        return redirect()->route('profile.social')->withErrors('Akun ini sudah terhubung dengan pengguna lain.');
+        return redirect()->route('profile')->withErrors('Akun ini sudah terhubung dengan pengguna lain.');
       }
 
       if (!$socialAccount) {
