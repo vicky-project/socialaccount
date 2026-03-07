@@ -2,7 +2,7 @@
 
 namespace Modules\SocialAccount\Models;
 
-use Modules\Users\Enums\Provider;
+use Modules\SocialAccount\Enums\Provider;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Spatie\Activitylog\Traits\LogsActivity;
