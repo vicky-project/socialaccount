@@ -80,7 +80,7 @@ class SocialLoginController extends Controller
         // Update last_used_at
         $socialAccount->update(['last_used_at' => now()]);
       }
-      return redirect()->route('profile.social')->with('success', 'Akun berhasil dihubungkan.');
+      return redirect()->route('profile')->with('success', 'Akun berhasil dihubungkan.');
     }
 
     // Proses login
