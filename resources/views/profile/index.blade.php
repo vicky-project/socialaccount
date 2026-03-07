@@ -47,7 +47,6 @@
       $availableProviders = collect($providers)->filter(function($provider) use ($connectedProviderNames) {
       return !in_array($provider->getName(), $connectedProviderNames);
       });
-      dd($availableProviders, $connectedProviderNames);
       @endphp
 
       @forelse($availableProviders as $provider)
