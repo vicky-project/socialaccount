@@ -43,11 +43,15 @@
 
     <h6>Hubungkan akun baru:</h6>
     <div class="d-flex flex-wrap gap-2">
-      @foreach($providers as $provider)
+      @forelse($providers as $provider)
       <a href="{{ route('profile.social.connect', $provider->getName()) }}" class="btn btn-outline-secondary">
         <i class="{{ $provider->getIcon() }}"></i> {{ $provider->getLabel() }}
       </a>
-      @endforeach
+      @empty
+      <p>
+        Belum ada module Social Provider. Install Module Social Provider terlebih dahulu.
+      </p>
+      @endforelse
     </div>
   </div>
 </div>
