@@ -17,7 +17,7 @@
     "socialiteproviders/google":"^4.1",
     "socialiteproviders/facebook":"^4.1",
     "socialiteproviders/github":"^4.1",
-    "vicky-project/users-module": "dev-main"
+    "vicky-project/users-module": "^1.0"
   },
   "extra": {
     "laravel": {
