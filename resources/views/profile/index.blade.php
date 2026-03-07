@@ -48,8 +48,8 @@
         <i class="{{ $provider->getIcon() }}"></i> {{ $provider->getLabel() }}
       </a>
       @empty
-      <p>
-        Belum ada module Social Provider. Install Module Social Provider terlebih dahulu.
+      <p class="text-muted">
+        Belum ada module Social Provider. Install module Social Provider terlebih dahulu.
       </p>
       @endforelse
     </div>
