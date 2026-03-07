@@ -3,11 +3,6 @@
     <i class="bi bi-shield-lock"></i> Akun Sosial
   </div>
   <div class="card-body">
-    @if(session('success'))
-    <div class="alert alert-success">
-      {{ session('success') }}
-    </div>
-    @endif
     @if(session('error'))
     <div class="alert alert-danger">
       {{ session('error') }}
@@ -23,9 +18,11 @@
       @foreach($connectedAccounts as $account)
       <li class="list-group-item d-flex justify-content-between align-items-center">
         <span>
-          <i class="bi bi-{{ $account->provider }}"></i> {{ ucfirst($account->provider->value) }}
+          <i class="bi bi-{{ $account->provider->value }}"></i> {{ ucfirst($account->provider->value) }}
           @if($account->providerable)
-          <small class="text-muted">({{ $account->providerable->email ?? $account->providerable->username ?? $account->providerable->provider_id }})</small>
+          <small class="text-muted">
+            ({{ $account->providerable->email ?? $account->providerable->username ?? $account->providerable->provider_id }})
+          </small>
           @endif
         </span>
         <form action="{{ route('profile.social.disconnect', $account->id) }}" method="POST">
@@ -43,13 +40,22 @@
 
     <h6>Hubungkan akun baru:</h6>
     <div class="d-flex flex-wrap gap-2">
-      @forelse($providers as $provider)
+      @php
+      // Kumpulkan nama provider yang sudah terhubung
+      $connectedProviderNames = $connectedAccounts->pluck('provider')->toArray();
+      // Filter provider yang belum terhubung
+      $availableProviders = collect($providers)->filter(function($provider) use ($connectedProviderNames) {
+      return !in_array($provider->getName(), $connectedProviderNames);
+      });
+      @endphp
+
+      @forelse($availableProviders as $provider)
       <a href="{{ route('profile.social.connect', $provider->getName()) }}" class="btn btn-outline-secondary">
         <i class="{{ $provider->getIcon() }}"></i> {{ $provider->getLabel() }}
       </a>
       @empty
       <p class="text-muted">
-        Belum ada module Social Provider. Install module Social Provider terlebih dahulu.
+        Semua akun sosial sudah terhubung.
       </p>
       @endforelse
     </div>
