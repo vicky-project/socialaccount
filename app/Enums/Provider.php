@@ -1,5 +1,5 @@
 <?php
-namespace Modules\Users\Enums;
+namespace Modules\SocialAccount\Enums;
 
 enum Provider: string
 {
