@@ -15,7 +15,6 @@
     "laravel/socialite":"^5.24",
     "socialiteproviders/telegram":"^4.1",
     "socialiteproviders/facebook":"^4.1",
-    "socialiteproviders/github":"^4.1",
     "vicky-project/users-module": "^1.0"
   },
   "extra": {
