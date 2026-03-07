@@ -23,7 +23,7 @@
       @foreach($connectedAccounts as $account)
       <li class="list-group-item d-flex justify-content-between align-items-center">
         <span>
-          <i class="bi bi-{{ $account->provider }}"></i> {{ ucfirst($account->provider) }}
+          <i class="bi bi-{{ $account->provider }}"></i> {{ ucfirst($account->provider->value) }}
           @if($account->providerable)
           <small class="text-muted">({{ $account->providerable->email ?? $account->providerable->username ?? $account->providerable->provider_id }})</small>
           @endif
