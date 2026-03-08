@@ -5,39 +5,41 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-	public function up()
-	{
-		Schema::create("social_accounts", function (Blueprint $table) {
-			$table->id();
-			$table
-				->foreignId("user_id")
-				->constrained()
-				->onDelete("cascade");
-			if (Schema::hasTable(config("authentication-log.table_name"))) {
-				$table
-					->foreignId("authlog_id")
-					->constrained(config("authentication-log.table_name"))
-					->onDelete("cascade");
-			}
+  public function up() {
+    $authLogTable = config('socialaccount.authentication_log_table', config('authentication-log.table_name'));
 
-			$table->string("provider"); // google, facebook, github, etc
-			$table->morphs("providerable"); // morph to provider table
-			$table->timestamp("last_used_at")->useCurrent();
-			$table->json("provider_data")->nullable();
-			$table->timestamps();
+    Schema::create("social_accounts", function (Blueprint $table) use($authLogTable) {
+      $table->id();
+      $table
+      ->foreignId("user_id")
+      ->constrained()
+      ->onDelete("cascade");
+      if (Schema::hasTable($authLogTable)) {
+        $table
+        ->foreignId("authlog_id")
+        ->constrained(config("authentication-log.table_name"))
+        ->onDelete("cascade");
+      } else {
+        $table->unsignedBigInteger('authlog_id')->nullable();
+      }
 
-			$indexes = ["user_id", "providerable_id"];
+      $table->string("provider", 50); // google, facebook, github, etc
+      $table->morphs("providerable"); // morph to provider table
+      $table->timestamp("last_used_at")->nullable();
+      $table->json("provider_data")->nullable();
+      $table->timestamps();
 
-			if (Schema::hasTable(config("authentication-log.table_name"))) {
-				$indexes[] = "authlog_id";
-			}
+      $table->index(["user_id",
+        "provider"]);
+      $table->index('providerable_id');
 
-			$table->index($indexes);
-		});
-	}
+      if (Schema::hasTable($authLogTable)) {
+        $table->index("authlog_id");
+      }
+    });
+  }
 
-	public function down()
-	{
-		Schema::dropIfExists("social_accounts");
-	}
+  public function down() {
+    Schema::dropIfExists("social_accounts");
+  }
 };
