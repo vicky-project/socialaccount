@@ -34,6 +34,7 @@ class SocialLoginController extends Controller
     try {
       $socialUser = Socialite::driver($provider)->user();
     } catch (\Exception $e) {
+      \Log::error("Failed to authenticate with {$provider}", ['message' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
       return redirect()->route('login')->withErrors("Failed to authenticate with $provider.");
     }
 
