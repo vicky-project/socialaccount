@@ -86,7 +86,7 @@ class SocialLoginController extends Controller
     // Proses login
     if ($socialAccount) {
       $user = $socialAccount->user;
-      Auth::guard('web')->login($user);
+      Auth::login($user);
       // Update last_used_at
       $socialAccount->update(['last_used_at' => now()]);
       return redirect()->intended('/dashboard');
@@ -99,11 +99,7 @@ class SocialLoginController extends Controller
     }
 
     if (!$user) {
-      $user = User::create([
-        'name' => $socialUser->getName() ?? $socialUser->getNickname(),
-        'email' => $socialUser->getEmail(),
-        'password' => bcrypt(str_random(16)),
-      ]);
+      return redirect()->route("login")->withErrors("Tidak ditemukan user dengan provider: {$provider}. Silakan login manual atau registrasi user baru.");
     }
 
     $authlogId = $this->getCurrentAuthLogId($user);
@@ -114,7 +110,7 @@ class SocialLoginController extends Controller
       'last_used_at' => now(),
     ], $providerData));
 
-    Auth::guard('web')->login($user);
+    Auth::login($user);
     return redirect()->intended('/dashboard');
   }
 
@@ -127,7 +123,6 @@ class SocialLoginController extends Controller
       return null;
     }
 
-    // Asumsikan package menyimpan log dengan user_id dan waktu
     // Ambil log terbaru untuk user ini (misalnya login terakhir)
     $log = $user->authentications()->first();
 
