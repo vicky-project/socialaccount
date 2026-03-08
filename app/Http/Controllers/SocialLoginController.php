@@ -2,6 +2,7 @@
 namespace Modules\SocialAccount\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 use Laravel\Socialite\Facades\Socialite;
@@ -25,16 +26,24 @@ class SocialLoginController extends Controller
     return Socialite::driver($provider)->redirect();
   }
 
-  public function handleProviderCallback($provider) {
+  public function handleProviderCallback(Request $request, $provider) {
     $providerInstance = $this->manager->getProvider($provider);
     if (!$providerInstance) {
       abort(404, "Provider not found");
     }
 
+    \Log::debug("Using request.", [
+      "request" => $request->all()
+    ]);
+
     try {
       $socialUser = Socialite::driver($provider)->user();
     } catch (\Exception $e) {
-      \Log::error("Failed to authenticate with {$provider}", ['message' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+      \Log::error("Failed to authenticate with {$provider}", [
+        'message' => $e->getMessage(),
+        'trace' => $e->getTraceAsString()
+      ]);
+
       return redirect()->route('login')->withErrors("Failed to authenticate with $provider.");
     }
 
