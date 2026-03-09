@@ -29,12 +29,10 @@ class SocialAccountService
       return $model->provider()->firstOrCreate(
         [
           "user_id" => $user->id,
-          "authlog_id" => $authenticationLog->id,
+          "provider" => $provider
         ],
         [
-          "user_id" => $user->id,
           "authlog_id" => $authenticationLog->id,
-          "provider" => $provider,
           "provider_data" => $options ?? [],
         ]
       );
