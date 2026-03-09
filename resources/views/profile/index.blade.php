@@ -50,7 +50,7 @@
       @endphp
 
       @forelse($availableProviders as $provider)
-      <a href="{{ route('profile.social.connect', $provider->getName()) }}" class="btn btn-outline-secondary">
+      <a href="{{ $provider->getLoginUrl() }}" class="btn btn-outline-secondary">
         <i class="{{ $provider->getIcon() }}"></i> {{ $provider->getLabel() }}
       </a>
       @empty
