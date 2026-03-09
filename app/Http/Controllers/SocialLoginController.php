@@ -132,6 +132,6 @@ class SocialLoginController extends Controller
     // Ambil log terbaru untuk user ini (misalnya login terakhir)
     $log = $user->authentications()->first();
 
-    return $log ? $log->id : null;
+    return $log ? $log->id : 0;
   }
 }
