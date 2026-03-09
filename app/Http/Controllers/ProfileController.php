@@ -15,10 +15,6 @@ class ProfileController extends Controller
     return view('socialaccount::profile.index', compact('connectedAccounts', 'providers'));
   }
 
-  public function connect($provider, SocialProviderManager $manager) {
-    return redirect()->route('social.login', $provider);
-  }
-
   public function disconnect($id) {
     $account = SocialAccount::where('user_id', auth()->id())->findOrFail($id);
     // Hapus juga providerable jika perlu? Atau biarkan saja karena mungkin ada relasi lain.

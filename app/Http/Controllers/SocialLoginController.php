@@ -32,10 +32,6 @@ class SocialLoginController extends Controller
       abort(404, "Provider not found");
     }
 
-    \Log::debug("Using request.", [
-      "request" => $request->all()
-    ]);
-
     try {
       $socialUser = Socialite::driver($provider)->user();
     } catch (\Exception $e) {
