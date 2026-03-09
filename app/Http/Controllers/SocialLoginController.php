@@ -109,6 +109,10 @@ class SocialLoginController extends Controller
     }
 
     $authlogId = $this->getCurrentAuthLogId($user);
+    if (!$authlogId) {
+      return redirect()->route("login")->withErrors("Anda belum pernah login sebelumnya. Silakan login terlebih dahulu menggunakan credential.");
+    }
+
     SocialAccount::create(array_merge([
       'user_id' => $user->id,
       'authlog_id' => $authlogId,
@@ -132,6 +136,6 @@ class SocialLoginController extends Controller
     // Ambil log terbaru untuk user ini (misalnya login terakhir)
     $log = $user->authentications()->first();
 
-    return $log ? $log->id : 0;
+    return $log ? $log->id : null;
   }
 }
