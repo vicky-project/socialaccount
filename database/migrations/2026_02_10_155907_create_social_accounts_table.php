@@ -17,7 +17,7 @@ return new class extends Migration {
       if (Schema::hasTable($authLogTable)) {
         $table
         ->foreignId("authlog_id")
-        ->constrained(config("authentication-log.table_name"))
+        ->constrained(config("authentication-log.table_name"))->nullable()
         ->onDelete("cascade");
       } else {
         $table->unsignedBigInteger('authlog_id')->nullable();
