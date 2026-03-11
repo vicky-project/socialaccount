@@ -95,7 +95,7 @@ class SocialLoginController extends Controller
       Auth::login($user);
       // Update last_used_at
       $socialAccount->update(['last_used_at' => now()]);
-      return redirect()->intended('/dashboard');
+      return redirect()->intended(config("socialaccount.url_after_login"));
     }
 
     // Cari user berdasarkan email (jika ada)
@@ -121,7 +121,7 @@ class SocialLoginController extends Controller
     ], $providerData));
 
     Auth::login($user);
-    return redirect()->intended('/dashboard');
+    return redirect()->intended(config("socialaccount.url_after_login"));
   }
 
   /**

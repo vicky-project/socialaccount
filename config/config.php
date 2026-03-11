@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'name' => 'SocialAccount',
+  'name' => 'SocialAccount',
+  "url_after_login" => "/apps/dashboard"
 ];
