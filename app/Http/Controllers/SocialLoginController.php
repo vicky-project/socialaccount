@@ -92,7 +92,7 @@ class SocialLoginController extends Controller
     // Proses login
     if ($socialAccount) {
       $user = $socialAccount->user;
-      Auth::login($user);
+      Auth::login($user, true);
       // Update last_used_at
       $socialAccount->update(['last_used_at' => now()]);
       return redirect()->intended(config("socialaccount.url_after_login"));
@@ -120,7 +120,7 @@ class SocialLoginController extends Controller
       'last_used_at' => now(),
     ], $providerData));
 
-    Auth::login($user);
+    Auth::login($user, true);
     return redirect()->intended(config("socialaccount.url_after_login"));
   }
 
