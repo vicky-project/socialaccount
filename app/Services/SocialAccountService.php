@@ -2,8 +2,9 @@
 namespace Modules\SocialAccount\Services;
 
 use Modules\Users\Models\User;
-use Modules\SocialAccount\Models\SocialAccount;
+use Modules\SocialAccount\Enums\Provider;
 use Modules\SocialAccount\Interfaces\SocialAccountInterface;
+use Modules\SocialAccount\Models\SocialAccount;
 
 class SocialAccountService
 {
@@ -20,7 +21,7 @@ class SocialAccountService
   public function saveUserSocialAccountByProvider(
     User $user,
     SocialAccountInterface $model,
-    string $provider,
+    string|Provider $provider,
     array $options = []
   ) {
     $authenticationLog = $user->latestAuthentication;
