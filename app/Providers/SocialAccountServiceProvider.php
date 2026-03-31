@@ -4,11 +4,13 @@ namespace Modules\SocialAccount\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Nwidart\Modules\Facades\Module;
 use Nwidart\Modules\Traits\PathNamespace;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
-use Modules\SocialAccount\Services\SocialProviderManager;
+use Modules\SocialAccount\Enums\Provider;
 use Modules\SocialAccount\Models\SocialAccount;
+use Modules\SocialAccount\Services\SocialProviderManager;
 
 class SocialAccountServiceProvider extends ServiceProvider
 {
@@ -31,9 +33,17 @@ class SocialAccountServiceProvider extends ServiceProvider
     $this->loadMigrationsFrom(module_path($this->name, 'database/migrations'));
 
     $userModel = config('auth.providers.users.model');
+    $hasTelegram = Module::has("SocialAccount") && Module::isEnabled("SocialAccount");
+
     $userModel::resolveRelationUsing('socialAccounts', function($user) {
       return $user->hasMany(SocialAccount::class);
     });
+
+    if ($hasTelegram) {
+      $userModel::macro("routeNotificationForTelegram", function($user) {
+        return $user->socialAccounts()->byProvider(Provider::TELEGRAM)->first()->telegram_id;
+      });
+    }
   }
 
   /**
