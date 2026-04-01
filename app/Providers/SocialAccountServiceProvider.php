@@ -35,13 +35,17 @@ class SocialAccountServiceProvider extends ServiceProvider
     $userModel = config('auth.providers.users.model');
     $hasTelegram = Module::has("SocialAccount") && Module::isEnabled("SocialAccount");
 
-    $userModel::resolveRelationUsing('socialAccounts', function($user) {
-      return $user->hasMany(SocialAccount::class);
-    });
+    if (!method_exists($userModel, "socialAccounts")) {
+      $userModel::resolveRelationUsing('socialAccounts', function($user) {
+        return $user->hasMany(SocialAccount::class);
+      });
+    }
 
     if ($hasTelegram) {
-      $userModel::macro("routeNotificationForTelegram", function($user) {
-        return $user->socialAccounts()->byProvider(Provider::TELEGRAM)->first()->telegram_id;
+      $userModel::macro("routeNotificationForTelegram", function() {
+        $telegram = $this->socialAccounts()->byProvider(Provider::TELEGRAM)->first();
+
+        return $telegram ? $telegram->telegram_id : null;
       });
     }
   }
