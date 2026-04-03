@@ -39,7 +39,7 @@ class SocialAccountServiceProvider extends ServiceProvider
       $userModel::resolveRelationUsing('socialAccounts', function($user) {
         return $user->hasMany(SocialAccount::class);
       });
-      $userModel::load("socialAccounts");
+      $userModel::with("socialAccounts");
     }
 
     if ($hasTelegram) {
