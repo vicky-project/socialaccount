@@ -77,13 +77,6 @@ class SocialAccount extends Model
       $provider);
   }
 
-  /**
-  * Accessors
-  */
-  public function getLastUsedAtAttribute() {
-    return $this->last_used_at->format("d-m-Y H:i:s");
-  }
-
   public function getProviderDataAttribute($value) {
     return json_decode($value,
       true) ?? [];
