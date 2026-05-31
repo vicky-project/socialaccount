@@ -24,21 +24,17 @@ class SocialAccountService
     string|Provider $provider,
     array $options = []
   ) {
-    $authenticationLog = $user->latestAuthentication;
+    $authenticationLog = $user->latestAuthentication();
 
-    if ($authenticationLog) {
-      return $model->provider()->firstOrCreate(
-        [
-          "user_id" => $user->id,
-          "provider" => $provider
-        ],
-        [
-          "authlog_id" => $authenticationLog->id,
-          "provider_data" => $options ?? [],
-        ]
-      );
-    }
-
-    return $authenticationLog;
+    return $model->provider()->firstOrCreate(
+      [
+        "user_id" => $user->id,
+        "provider" => $provider
+      ],
+      [
+        "authlog_id" => $user->latestAuthentication()?->id || null,
+        "provider_data" => $options ?? [],
+      ]
+    );
   }
 }
