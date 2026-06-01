@@ -10,7 +10,7 @@ class SocialAccountService
 {
   public function getByUserId(int $userId) {
     return SocialAccount::whereHas("user", function ($query) use ($userId) {
-      $query->where("id", $userId);
+      $query->where("user_id", $userId);
     })->get();
   }
 
