@@ -33,11 +33,11 @@ class SocialAccount extends Model
   ];
 
   public static function booted() {
-    static::deleting(function ($socialAccount) {
-      if ($socialAccount->providerable) {
-        $socialAccount->providerable->delete();
-      }
-    });
+    //static::deleting(function ($socialAccount) {
+    //  if ($socialAccount->providerable) {
+    //    $socialAccount->providerable->delete();
+    //  }
+    //});
   }
 
   /**
