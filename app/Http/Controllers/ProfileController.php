@@ -22,7 +22,7 @@ class ProfileController extends Controller
     $user = $request->user();
     $account = SocialAccount::where('user_id', $user->id)->where('provider', $provider)->first();
     $link = $account->providerable->openLink();
-    if (!$link) {
+    if (!$link || $link == '') {
       return back()->with('error', 'No url provider to open.');
     }
 

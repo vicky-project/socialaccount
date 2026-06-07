@@ -34,14 +34,10 @@
         </span>
         <div class="d-flex align-items-center">
           @if($account->providerable)
-          @switch($account->provider)
-          @case(Provider::GITHUB)
           <a href="{{ route('profile.social.open', $account->provider) }}" class="btn btn-sm btn-outline-primary me-2">
             <i class="bi bi-{{ $account->provider->value }}"></i>
             Repos
           </a>
-          @break
-          @endswitch
           @endif
           <form action="{{ route('profile.social.disconnect', $account->id) }}" method="POST">
             @csrf @method('DELETE')
