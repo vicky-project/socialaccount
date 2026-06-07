@@ -11,5 +11,6 @@ Route::group(['middleware' => 'web'], function() {
 
 Route::group(['middleware' => 'auth'], function() {
   Route::get('/profile/social', [ProfileController::class, 'index'])->name('profile.social');
+  Route::get('/profile/social/{provider}/open', [ProfileController::class, 'open'])->name('profile.social.open');
   Route::delete('/profile/social/{id}', [ProfileController::class, 'disconnect'])->name('profile.social.disconnect');
 });
