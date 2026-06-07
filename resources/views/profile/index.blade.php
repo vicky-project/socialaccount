@@ -1,3 +1,4 @@
+@use('Modules\SocialAccount\Enums\Provider')
 <div class="card mt-3">
   <div class="card-header">
     <i class="bi bi-shield-lock"></i> Akun Sosial
@@ -21,14 +22,32 @@
           <i class="bi bi-{{ $account->provider->value }}"></i> {{ ucfirst($account->provider->value) }}
           @if($account->providerable)
           <small class="text-muted">
-            ({{ $account->providerable->email ?? $account->providerable->username ?? $account->providerable->provider_id }})
+            @if($account->providerable->email)
+            ({{ $account->providerable->email }})
+            @elseif($account->providerable->username)
+            (<span>@</span>{{ $account->providerable->username }})
+            @else
+            ({{ $account->providerable->provider_id }})
+            @endif
           </small>
           @endif
         </span>
-        <form action="{{ route('profile.social.disconnect', $account->id) }}" method="POST">
-          @csrf @method('DELETE')
-          <button class="btn btn-sm btn-danger" onclick="return confirm('Putuskan akun ini?')">Putuskan</button>
-        </form>
+        <div class="d-flex align-items-center">
+          @if($account->providerable)
+          @switch($account->provider)
+          @case(Provider::GITHUB)
+          <a href="{{ route('profile.social.open', $account->provider) }}" class="btn btn-sm btn-outline-primary me-2">
+            <i class="bi bi-{{ $account->provider->value }}"></i>
+            Repos
+          </a>
+          @break
+          @endswitch
+          @endif
+          <form action="{{ route('profile.social.disconnect', $account->id) }}" method="POST">
+            @csrf @method('DELETE')
+            <button class="btn btn-sm btn-danger" onclick="return confirm('Putuskan akun ini?')">Putuskan</button>
+          </form>
+        </div>
       </li>
       @endforeach
     </ul>
