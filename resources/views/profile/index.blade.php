@@ -36,7 +36,6 @@
           @if($account->providerable)
           <a href="{{ route('profile.social.open', $account->provider) }}" class="btn btn-sm btn-outline-primary me-2">
             <i class="bi bi-{{ $account->provider->value }}"></i>
-            Repos
           </a>
           @endif
           <form action="{{ route('profile.social.disconnect', $account->id) }}" method="POST">
