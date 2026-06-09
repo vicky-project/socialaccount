@@ -6,6 +6,7 @@ enum Provider: string
   case GOOGLE = "google";
   case GITHUB = "github";
   case TELEGRAM = "telegram";
+  case TWITTER = "twitter";
 
     public function label(): string
     {
@@ -13,6 +14,7 @@ enum Provider: string
         self::GOOGLE => "Google",
         self::GITHUB => "Github",
         self::TELEGRAM => "Telegram",
+        self::TWITTER => "twitter",
       };
     }
 }
